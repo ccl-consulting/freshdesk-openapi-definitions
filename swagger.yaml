@@ -182,7 +182,7 @@ paths:
     put:
       tags:
       - Time Entries
-      summary: Create a Time Entry
+      summary: Update a Time Entry
       description: Create a Time Entry
       parameters:
       - name: timeID
