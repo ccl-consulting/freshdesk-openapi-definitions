@@ -121,6 +121,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
       security:
       - basicAuth: []
   /settings/helpdesk:
@@ -136,7 +140,8 @@ paths:
           description: OK
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/Settings'
       security:
       - basicAuth: []
   /time_entries:
@@ -272,6 +277,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tickets'
       security:
       - basicAuth: []
   /ticket_fields:
