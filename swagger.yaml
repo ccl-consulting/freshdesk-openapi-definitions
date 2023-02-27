@@ -141,23 +141,16 @@ paths:
       responses:
         "200":
           description: OK
-      security:
-      - basicAuth: []
-  /tickets:
-    get:
-      tags:
-      - Tickets
-      summary: List all tickets
-      description: List all tickets
-      responses:
-        "200":
-          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Time%20Entries'
       security:
       - basicAuth: []
   /tickets/{ticketID}/time_entries:
     post:
       tags:
-      - Tickets
+      - Time Entries
       summary: Create a Time Entry
       description: Create a Time Entry
       parameters:
@@ -170,13 +163,108 @@ paths:
         schema:
           type: integer
           format: int64
+          example: 959
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ticketID_time_entries_body'
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tickets'
+                $ref: '#/components/schemas/Time%20Entries'
+      security:
+      - basicAuth: []
+  /time_entries/{timeID}:
+    put:
+      tags:
+      - Time Entries
+      summary: Create a Time Entry
+      description: Create a Time Entry
+      parameters:
+      - name: timeID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/time_entries_timeID_body'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Time%20Entries'
+      security:
+      - basicAuth: []
+    delete:
+      tags:
+      - Time Entries
+      summary: Delete a Time Entry
+      description: Create a Time Entry
+      parameters:
+      - name: timeID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 2
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
+  /time_entries/{timeID}/toggle_timer:
+    put:
+      tags:
+      - Time Entries
+      summary: Start/Stop Timer
+      description: Start/Stop Timer
+      parameters:
+      - name: timeID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Time%20Entries'
+      security:
+      - basicAuth: []
+  /tickets:
+    get:
+      tags:
+      - Tickets
+      summary: List all tickets
+      description: List all tickets
+      responses:
+        "200":
+          description: OK
       security:
       - basicAuth: []
   /ticket_fields:
@@ -571,6 +659,115 @@ components:
         jobId:
           type: integer
           format: int64
+    Time Entries:
+      type: object
+      properties:
+        billable:
+          type: boolean
+        note:
+          type: string
+          example: Invoice Preparation
+        timer_running:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+          example: 2
+        agent_id:
+          type: integer
+          format: int64
+          example: 10
+        ticket_id:
+          type: integer
+          format: int64
+          example: 959
+        time_spent:
+          type: integer
+          format: int64
+        created_at:
+          type: string
+          format: datetime
+          example: 2015-08-25T07:31:55Z
+        updated_at:
+          type: string
+          format: datetime
+          example: 2015-08-25T07:31:55Z
+        executed_at:
+          type: string
+          format: datetime
+          example: 2015-08-25T07:31:55Z
+        start_time:
+          type: string
+          format: datetime
+          example: 2015-08-25T07:31:55Z
+    ticketID_time_entries_body:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: The agent to whom this time-entry is associated. One agent
+            can have only one timer running. Everything else will be stopped if new
+            timer is on for an agent
+          example: "10"
+        billable:
+          type: boolean
+          description: Set as true if the entry is billable. Default value is true
+        executed_at:
+          type: string
+          description: Time at which this time-entry id added/created
+          example: 2015-08-25T07:31:55Z
+        note:
+          type: string
+          description: Description on this time-entry
+          example: Invoice Preparation
+        start_time:
+          type: string
+          description: The time at which the time-entry is added or the time of the
+            last invoked "start-timer" action using a toggle
+          format: datetime
+          example: 2015-08-25T07:31:55Z
+        time_spent:
+          type: string
+          description: The number of hours (in hh:mm format). Used to set the total
+            time_spent
+          example: 10:40
+        timer_running:
+          type: boolean
+          description: Indicates if the timer is running
+    time_entries_timeID_body:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: The agent to whom this time-entry is associated. One agent
+            can have only one timer running. Everything else will be stopped if new
+            timer is on for an agent
+          example: "10"
+        billable:
+          type: boolean
+          description: Set as true if the entry is billable. Default value is true
+        executed_at:
+          type: string
+          description: Time at which this time-entry id added/created
+          example: 2015-08-25T07:31:55Z
+        note:
+          type: string
+          description: Description on this time-entry
+          example: Invoice Preparation
+        start_time:
+          type: string
+          description: The time at which the time-entry is added or the time of the
+            last invoked "start-timer" action using a toggle
+          format: datetime
+          example: 2015-08-25T07:31:55Z
+        time_spent:
+          type: string
+          description: The number of hours (in hh:mm format). Used to set the total
+            time_spent
+          example: 10:40
+        timer_running:
+          type: boolean
+          description: Indicates if the timer is running
   securitySchemes:
     basicAuth:
       type: http
