@@ -151,6 +151,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
   /contact_fields:
     get:
       tags:
@@ -299,6 +303,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
       security:
       - basicAuth: []
   /jobs/{jobID}:
@@ -317,6 +325,7 @@ paths:
         schema:
           type: integer
           format: int64
+          example: 42
       responses:
         "200":
           description: OK
@@ -457,6 +466,158 @@ paths:
           description: OK
       security:
       - basicAuth: []
+  /discussions/categories/{id}:
+    delete:
+      tags:
+      - Discussions
+      summary: Delete a Discussion Category
+      description: Delete a Discussion Category
+      parameters:
+      - name: id
+        in: path
+        description: Discussion Category ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
+  /discussions/forums/{id}:
+    delete:
+      tags:
+      - Discussions
+      summary: Delete a Discussion Forum
+      description: Delete a Discussion Forum
+      parameters:
+      - name: id
+        in: path
+        description: Discussion Forum ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
+  /discussions/forums/{forum_id}/follow:
+    delete:
+      tags:
+      - Discussions
+      summary: Unmonitor Forum
+      description: Unmonitor Forum
+      parameters:
+      - name: forum_id
+        in: path
+        description: Discussion Forum ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      - name: user_id
+        in: query
+        description: User ID
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
+  /discussions/topics/{id}:
+    delete:
+      tags:
+      - Discussions
+      summary: Delete a Topic
+      description: Delete a Topic
+      parameters:
+      - name: id
+        in: path
+        description: Topic ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
+  /discussions/topics/{topic_id}/follow:
+    delete:
+      tags:
+      - Discussions
+      summary: Unmonitor topic
+      description: Unmonitor topic
+      parameters:
+      - name: topic_id
+        in: path
+        description: Topic ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      - name: user_id
+        in: query
+        description: User ID
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
+  /discussions/comments/{id}:
+    delete:
+      tags:
+      - Discussions
+      summary: Delete a comment
+      description: Delete a comment
+      parameters:
+      - name: id
+        in: path
+        description: Comment ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
   /solutions/categories:
     get:
       tags:
@@ -466,6 +627,72 @@ paths:
       responses:
         "200":
           description: OK
+      security:
+      - basicAuth: []
+  /solutions/categories/{id}:
+    delete:
+      tags:
+      - Solutions
+      summary: Delete a Solution Category
+      description: Delete a Solution Category
+      parameters:
+      - name: id
+        in: path
+        description: Solution Category ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
+  /solutions/folders/{id}:
+    delete:
+      tags:
+      - Solutions
+      summary: Delete a Solution Folder
+      description: Delete a Solution Folder
+      parameters:
+      - name: id
+        in: path
+        description: Solution Folder ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
+  /solutions/articles/{id}:
+    delete:
+      tags:
+      - Solutions
+      summary: Delete a Solution Article
+      description: Delete a Solution Article
+      parameters:
+      - name: id
+        in: path
+        description: Solution Article ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
       security:
       - basicAuth: []
   /surveys:
@@ -544,6 +771,28 @@ paths:
       responses:
         "200":
           description: OK
+      security:
+      - basicAuth: []
+  /email/mailboxes/{id}:
+    delete:
+      tags:
+      - Email Mailboxes
+      summary: Delete an Email Mailboxes
+      description: Delete an Email Mailboxes
+      parameters:
+      - name: id
+        in: path
+        description: Mailboxes ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
       security:
       - basicAuth: []
   /email/settings:
@@ -680,6 +929,38 @@ paths:
           description: OK
       security:
       - basicAuth: []
+  /automations/{automation_type_id}/rules/{id}:
+    delete:
+      tags:
+      - Automations
+      summary: Delete an Automation Rule
+      description: Delete an Automation Rule
+      parameters:
+      - name: automation_type_id
+        in: path
+        description: Type id of the automation
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      - name: id
+        in: path
+        description: ID of the automation rule
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
   /settings/helpdesk:
     get:
       tags:
@@ -707,12 +988,75 @@ components:
           description: Unique ID of the ticket
           format: int64
           example: 42
+    Account:
+      type: object
+      properties:
+        organisation_id:
+          type: integer
+          format: int64
+          example: 284960733419037820
+        organisation_name:
+          type: string
+          example: dailyplanet.myfreshworks.com
+        account_id:
+          type: string
+          example: "1840509"
+        account_name:
+          type: string
+          example: Daily Planet
+        account_domain:
+          type: string
+          example: dailyplanet.freshdesk.com
+        bundle_id:
+          type: integer
+          format: int64
+          example: 42
+        hipaa_compliant:
+          type: boolean
+        total_agents:
+          $ref: '#/components/schemas/Account_total_agents'
+        timezone:
+          type: string
+          example: Eastern Time (US & Canada)
+        data_center:
+          type: string
+          example: US
+        tier_type:
+          type: string
+          example: Forest
+        address:
+          $ref: '#/components/schemas/Account_address'
+        contact_person:
+          $ref: '#/components/schemas/Account_contact_person'
     Jobs:
       type: object
       properties:
         id:
           type: integer
           format: int64
+          example: 42
+        name:
+          type: string
+          example: ACCOUNT::EXPORT
+        status:
+          type: string
+          example: IN PROGRESS
+        created_at:
+          type: string
+          format: datetime
+          example: 2017-09-21T14:00:50Z
+        updated_at:
+          type: string
+          format: datetime
+          example: 2018-11-30T14:13:11Z
+        status_updated_at:
+          type: string
+          format: datetime
+          example: 2017-09-21T14:00:50Z
+        progress:
+          type: integer
+          format: int64
+          example: 80
     Contact:
       type: object
       properties:
@@ -1109,6 +1453,56 @@ components:
         timer_running:
           type: boolean
           description: Indicates if the timer is running
+    Account_total_agents:
+      type: object
+      properties:
+        full_time:
+          type: integer
+          format: int64
+          example: 1
+        occasional:
+          type: integer
+          format: int64
+          example: 1
+        field_service:
+          type: integer
+          format: int64
+          example: 0
+        collaborators:
+          type: integer
+          format: int64
+          example: 0
+    Account_address:
+      type: object
+      properties:
+        country:
+          type: string
+          example: USA
+        state:
+          type: string
+          example: California
+        city:
+          type: string
+          example: San Mateo CA
+        street:
+          type: string
+          example: S. Delaware Street
+        postalcode:
+          type: integer
+          format: int64
+          example: 94403
+    Account_contact_person:
+      type: object
+      properties:
+        firstnam:
+          type: string
+          example: Clark
+        lastname:
+          type: string
+          example: Kent
+        email:
+          type: string
+          example: clarkkent1@gmail.com
     Business_Hours_business_hours_monday:
       type: object
       properties:
