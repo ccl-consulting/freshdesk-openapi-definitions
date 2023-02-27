@@ -584,6 +584,32 @@ paths:
                 $ref: '#/components/schemas/Products'
       security:
       - basicAuth: []
+  /business_hours/{businesshoursID}:
+    get:
+      tags:
+      - Business Hours
+      summary: View a Business Hour
+      description: View a Business Hour
+      parameters:
+      - name: businesshoursID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Business_Hours'
+      security:
+      - basicAuth: []
   /business_hours:
     get:
       tags:
@@ -593,6 +619,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Business_Hours'
       security:
       - basicAuth: []
   /scenario_automations.json:
@@ -604,6 +634,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scenario_Automations'
       security:
       - basicAuth: []
   /sla_policies:
@@ -831,6 +865,61 @@ components:
           type: string
           format: datetime
           example: 2015-07-03T09:08:53+05:30
+    Business_Hours:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 35000006727
+        name:
+          type: string
+          example: Default
+        description:
+          type: string
+          example: Default Business Calendar
+        time_zone:
+          type: string
+          example: Eastern Time (US & Canada)
+        is_default:
+          type: boolean
+        business_hours:
+          $ref: '#/components/schemas/Business_Hours_business_hours'
+        created_at:
+          type: string
+          format: datetime
+          example: 2017-09-21T14:00:50Z
+        updated_at:
+          type: string
+          format: datetime
+          example: 2018-11-30T14:13:11Z
+    Scenario_Automations:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 42
+        name:
+          type: string
+          example: default
+        description:
+          type: string
+          example: :"Default Business Hour"
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Scenario_Automations_actions'
+        private:
+          type: boolean
+        created_at:
+          type: string
+          format: datetime
+          example: 2018-08-16T09:08:53+05:30
+        updated_at:
+          type: string
+          format: datetime
+          example: 2018-08-16T09:08:53+05:30
     ticketID_time_entries_body:
       type: object
       properties:
@@ -899,6 +988,37 @@ components:
         timer_running:
           type: boolean
           description: Indicates if the timer is running
+    Business_Hours_business_hours_monday:
+      type: object
+      properties:
+        start_time:
+          type: string
+          example: 08:00:00 am
+        end_time:
+          type: string
+          example: 11:59:59 pm
+    Business_Hours_business_hours:
+      type: object
+      properties:
+        monday:
+          $ref: '#/components/schemas/Business_Hours_business_hours_monday'
+        tuesday:
+          $ref: '#/components/schemas/Business_Hours_business_hours_monday'
+        wednesday:
+          $ref: '#/components/schemas/Business_Hours_business_hours_monday'
+        thursday:
+          $ref: '#/components/schemas/Business_Hours_business_hours_monday'
+        friday:
+          $ref: '#/components/schemas/Business_Hours_business_hours_monday'
+    Scenario_Automations_actions:
+      type: object
+      properties:
+        name:
+          type: string
+          example: ticket_type
+        value:
+          type: string
+          example: Problem
   securitySchemes:
     basicAuth:
       type: http
