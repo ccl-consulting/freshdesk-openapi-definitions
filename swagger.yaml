@@ -144,7 +144,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Time%20Entries'
+                $ref: '#/components/schemas/Time_Entries'
       security:
       - basicAuth: []
   /tickets/{ticketID}/time_entries:
@@ -163,7 +163,7 @@ paths:
         schema:
           type: integer
           format: int64
-          example: 959
+          example: 42
       requestBody:
         content:
           application/json:
@@ -175,7 +175,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Time%20Entries'
+                $ref: '#/components/schemas/Time_Entries'
       security:
       - basicAuth: []
   /time_entries/{timeID}:
@@ -206,7 +206,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Time%20Entries'
+                $ref: '#/components/schemas/Time_Entries'
       security:
       - basicAuth: []
     delete:
@@ -465,6 +465,32 @@ paths:
           description: OK
       security:
       - basicAuth: []
+  /email_configs/{emailID}:
+    get:
+      tags:
+      - Email Configs
+      summary: View an Email Config
+      description: View an Email Config
+      parameters:
+      - name: emailID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Email_Configs'
+      security:
+      - basicAuth: []
   /email_configs:
     get:
       tags:
@@ -474,6 +500,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Email_Configs'
       security:
       - basicAuth: []
   /email/mailboxes:
@@ -509,6 +539,34 @@ paths:
           description: OK
       security:
       - basicAuth: []
+  /products/{productID}:
+    get:
+      tags:
+      - Products
+      summary: View a Product
+      description: |-
+        View a Product
+        "message": "The Multi Product feature(s) is/are not supported in your plan. Please upgrade your account to use it."
+      parameters:
+      - name: productID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+      security:
+      - basicAuth: []
   /products:
     get:
       tags:
@@ -520,6 +578,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
       security:
       - basicAuth: []
   /business_hours:
@@ -563,14 +625,14 @@ components:
         id:
           type: integer
           format: int64
-          example: 10
+          example: 42
     Contact:
       type: object
       properties:
         id:
           type: integer
           format: int64
-          example: 10
+          example: 42
         active:
           type: boolean
         address:
@@ -581,7 +643,7 @@ components:
         company_id:
           type: integer
           format: int64
-          example: 10
+          example: 42
         view_all_tickets:
           type: boolean
         custom_fields:
@@ -659,7 +721,7 @@ components:
         jobId:
           type: integer
           format: int64
-    Time Entries:
+    Time_Entries:
       type: object
       properties:
         billable:
@@ -672,15 +734,15 @@ components:
         id:
           type: integer
           format: int64
-          example: 2
+          example: 42
         agent_id:
           type: integer
           format: int64
-          example: 10
+          example: 42
         ticket_id:
           type: integer
           format: int64
-          example: 959
+          example: 42
         time_spent:
           type: integer
           format: int64
@@ -700,6 +762,75 @@ components:
           type: string
           format: datetime
           example: 2015-08-25T07:31:55Z
+    Email_Configs:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: Set to true if the email config is verified and activated
+        group_id:
+          type: integer
+          description: Denotes the group ID to which the email is associated
+          format: int64
+          example: 42
+        id:
+          type: integer
+          description: Unique ID of the email config
+          format: int64
+          example: 42
+        name:
+          type: string
+          description: Name of the email config
+          example: Primary Email
+        primary_role:
+          type: boolean
+          description: "Set to true if the email associated to a product, is the primary\
+            \ email"
+        product_id:
+          type: integer
+          description: Denotes the product ID to which the email is associated
+          format: int64
+          example: 42
+        reply_email:
+          type: string
+          description: Denotes your support email address
+          example: support@domain.freshdesk.com
+        to_email:
+          type: string
+          description: Denotes the email address to which your support emails gets
+            forwarded
+          example: support@domain.freshdesk.com
+        created_at:
+          type: string
+          description: Email Config creation timestamp
+          format: datetime
+          example: 2016-07-11T04:40:00Z
+        updated_at:
+          type: string
+          description: Email Config updated timestamp
+          format: datetime
+          example: 2016-07-11T04:40:00Z
+    Products:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 42
+        name:
+          type: string
+          example: Freshservice
+        description:
+          type: string
+          example: Support for IT
+        created_at:
+          type: string
+          format: datetime
+          example: 2015-07-03T09:08:53+05:30
+        updated_at:
+          type: string
+          format: datetime
+          example: 2015-07-03T09:08:53+05:30
     ticketID_time_entries_body:
       type: object
       properties:
@@ -708,7 +839,7 @@ components:
           description: The agent to whom this time-entry is associated. One agent
             can have only one timer running. Everything else will be stopped if new
             timer is on for an agent
-          example: "10"
+          example: "42"
         billable:
           type: boolean
           description: Set as true if the entry is billable. Default value is true
