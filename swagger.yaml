@@ -127,23 +127,6 @@ paths:
                 $ref: '#/components/schemas/Contact'
       security:
       - basicAuth: []
-  /settings/helpdesk:
-    get:
-      tags:
-      - Settings
-      summary: Settings are configured through the Admin page of the Freshdesk web
-        app.
-      description: Settings are configured through the Admin page of the Freshdesk
-        web app.
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Settings'
-      security:
-      - basicAuth: []
   /time_entries:
     get:
       tags:
@@ -667,6 +650,23 @@ paths:
           description: OK
       security:
       - basicAuth: []
+  /settings/helpdesk:
+    get:
+      tags:
+      - Settings
+      summary: Settings are configured through the Admin page of the Freshdesk web
+        app.
+      description: Settings are configured through the Admin page of the Freshdesk
+        web app.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings'
+      security:
+      - basicAuth: []
 components:
   schemas:
     Tickets:
@@ -949,7 +949,7 @@ components:
         description:
           type: string
           description: A short description about the Scenario
-          example: :"Default Business Hour"
+          example: Default Business Hour
         actions:
           type: array
           description: Actions to be performed by the Scenario
