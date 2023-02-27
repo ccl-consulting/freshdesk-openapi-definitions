@@ -253,7 +253,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Time%20Entries'
+                $ref: '#/components/schemas/Time_Entries'
       security:
       - basicAuth: []
   /tickets:
@@ -658,6 +658,7 @@ components:
       properties:
         id:
           type: integer
+          description: Unique ID of the ticket
           format: int64
           example: 42
     Contact:
@@ -665,90 +666,104 @@ components:
       properties:
         id:
           type: integer
+          description: ID of the contact
           format: int64
           example: 42
         active:
           type: boolean
+          description: Set to true if the contact has been verified
         address:
           type: string
+          description: Address of the contact
           example: "123, Main Street"
         avatar:
           type: object
+          description: Avatar of the contact
         company_id:
           type: integer
+          description: ID of the primary company to which this contact belongs
           format: int64
           example: 42
         view_all_tickets:
           type: boolean
+          description: Set to true if the contact can see all tickets that are associated
+            with the company to which he belong
         custom_fields:
           type: array
+          description: Key value pair containing the name and value of the custom
+            fields.
           items:
             type: string
         deleted:
           type: boolean
+          description: Set to true if the contact has been deleted. Note that this
+            attribute will only be present for deleted contacts
         description:
           type: string
+          description: A short description of the contact
           example: This is a test contact
         email:
           type: string
+          description: "Primary email address of the contact. If you want to associate\
+            \ additional email(s) with this contact, use the other_emails attribute"
           example: foo@test.com
         job_title:
           type: string
+          description: Job title of the contact
           example: Software Engineer
         language:
           type: string
+          description: Language of the contact
           example: en
         mobile:
           type: string
+          description: Mobile number of the contact
           example: "1234567890"
         name:
           type: string
+          description: Name of the contact
           example: Foo Bar
         other_emails:
           type: array
+          description: Additional emails associated with the contact
           items:
             type: string
         phone:
           type: string
+          description: Telephone number of the contact
           example: "1234567890"
         tags:
           type: array
+          description: Tags associated with this contact
           items:
             type: string
         time_zone:
           type: string
+          description: Time zone in which the contact resides
           example: Asia/Kolkata
         twitter_id:
           type: string
+          description: Twitter handle of the contact
           example: foo
         unique_external_id:
           type: string
+          description: External ID of the contact
           example: "1234567890"
         other_companies:
           type: array
+          description: Additional companies associated with the contact
           items:
             type: string
         created_at:
           type: string
+          description: Contact creation timestamp
           format: datetime
           example: 2016-07-11T04:40:00Z
         updated_at:
           type: string
+          description: Contact updated timestamp
           format: datetime
           example: 2016-07-11T04:40:00Z
-    Settings:
-      type: object
-      properties:
-        primary_language:
-          type: string
-        supported_languages:
-          type: array
-          items:
-            type: string
-        portal_languages:
-          type: array
-          items:
-            type: string
     Jobs:
       type: object
       properties:
@@ -849,20 +864,25 @@ components:
       properties:
         id:
           type: integer
+          description: Unique ID of the product
           format: int64
           example: 42
         name:
           type: string
+          description: Name of the product
           example: Freshservice
         description:
           type: string
+          description: Description of the product
           example: Support for IT
         created_at:
           type: string
+          description: Product creation timestamp
           format: datetime
           example: 2015-07-03T09:08:53+05:30
         updated_at:
           type: string
+          description: Product updated timestamp
           format: datetime
           example: 2015-07-03T09:08:53+05:30
     Business_Hours:
@@ -870,19 +890,24 @@ components:
       properties:
         id:
           type: integer
+          description: Unique ID of the business hour
           format: int64
           example: 35000006727
         name:
           type: string
+          description: Name of the business hour
           example: Default
         description:
           type: string
+          description: Description of the business hour
           example: Default Business Calendar
         time_zone:
           type: string
+          description: Denotes the time zone of the business hour
           example: Eastern Time (US & Canada)
         is_default:
           type: boolean
+          description: Set to true if this is the default business hour
         business_hours:
           $ref: '#/components/schemas/Business_Hours_business_hours'
         created_at:
@@ -898,28 +923,52 @@ components:
       properties:
         id:
           type: integer
+          description: ID of the Scenario
           format: int64
           example: 42
         name:
           type: string
+          description: Name of the Scenario
           example: default
         description:
           type: string
+          description: A short description about the Scenario
           example: :"Default Business Hour"
         actions:
           type: array
+          description: Actions to be performed by the Scenario
           items:
             $ref: '#/components/schemas/Scenario_Automations_actions'
         private:
           type: boolean
+          description: Boolean value stating whether the Scenario is accessible to
+            self or all
         created_at:
           type: string
+          description: Scenario Automations creation timestamp
           format: datetime
           example: 2018-08-16T09:08:53+05:30
         updated_at:
           type: string
+          description: Scenario Automations updated timestamp
           format: datetime
           example: 2018-08-16T09:08:53+05:30
+    Settings:
+      type: object
+      properties:
+        primary_language:
+          type: string
+          description: Primary language on your subdomain
+        supported_languages:
+          type: array
+          description: Supported language on your subdomain
+          items:
+            type: string
+        portal_languages:
+          type: array
+          description: Portal language on your subdomain
+          items:
+            type: string
     ticketID_time_entries_body:
       type: object
       properties:
@@ -993,23 +1042,37 @@ components:
       properties:
         start_time:
           type: string
+          description: "Time in \"hh:mm:ss a\" format ex: \"08:00:00 am\""
           example: 08:00:00 am
         end_time:
           type: string
           example: 11:59:59 pm
+      description: Object of 'start_time' and 'end_time'
+    Business_Hours_business_hours_tuesday:
+      type: object
+      properties:
+        start_time:
+          type: string
+          example: 08:00:00 am
+        end_time:
+          type: string
+          example: 11:59:59 pm
+      description: Object of 'start_time' and 'end_time'
     Business_Hours_business_hours:
       type: object
       properties:
         monday:
           $ref: '#/components/schemas/Business_Hours_business_hours_monday'
         tuesday:
-          $ref: '#/components/schemas/Business_Hours_business_hours_monday'
+          $ref: '#/components/schemas/Business_Hours_business_hours_tuesday'
         wednesday:
-          $ref: '#/components/schemas/Business_Hours_business_hours_monday'
+          $ref: '#/components/schemas/Business_Hours_business_hours_tuesday'
         thursday:
-          $ref: '#/components/schemas/Business_Hours_business_hours_monday'
+          $ref: '#/components/schemas/Business_Hours_business_hours_tuesday'
         friday:
-          $ref: '#/components/schemas/Business_Hours_business_hours_monday'
+          $ref: '#/components/schemas/Business_Hours_business_hours_tuesday'
+      description: "Collection of start time and end time of days of a week - 'monday',\
+        \ 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'"
     Scenario_Automations_actions:
       type: object
       properties:
