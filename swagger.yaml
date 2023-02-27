@@ -3,9 +3,13 @@ info:
   title: Swagger Freshdesk API V2 - OpenAPI 3.0
   description: |-
     Freshdesk is a cloud-based customer support platform that was founded with the mission of enabling companies of all sizes to provide great customer service.
+
     Our goal is simple: make it easy for brands to talk to their customers and make it easy for users to get in touch with businesses.
+
     Freshdesk's APIs belong to the Representational State Transfer (REST) category.
+
     They allow you to perform 'RESTful' operations such as reading, modifying, adding or deleting data from your helpdesk.
+
     The APIs also support Cross-Origin Resource Sharing (CORS).
   version: 0.0.1
 externalDocs:
@@ -132,8 +136,7 @@ paths:
           description: OK
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Scenario_Automations'
+              schema: {}
       security:
       - basicAuth: []
   /time_entries:
