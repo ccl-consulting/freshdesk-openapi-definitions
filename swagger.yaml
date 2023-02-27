@@ -1,9 +1,468 @@
 openapi: 3.0.0
 info:
-  title: freshdesk-openapi-documentation
-  description: Freshdesk V2 - OpenAPI Documentation
+  title: Swagger Freshdesk API V2 - OpenAPI 3.0
+  description: |-
+    Freshdesk is a cloud-based customer support platform that was founded with the mission of enabling companies of all sizes to provide great customer service.
+    Our goal is simple: make it easy for brands to talk to their customers and make it easy for users to get in touch with businesses.
+    Freshdesk's APIs belong to the Representational State Transfer (REST) category.
+    They allow you to perform 'RESTful' operations such as reading, modifying, adding or deleting data from your helpdesk.
+    The APIs also support Cross-Origin Resource Sharing (CORS).
   version: 0.0.1
+externalDocs:
+  description: API V2 Documentation
+  url: https://developers.freshdesk.com/api/#introduction
 servers:
-- url: /
-paths: {}
-components: {}
+- url: https://ccl-consulting.freshdesk.com/api/v2
+  description: Production server
+tags:
+- name: Tickets
+  description: A ticket is an issue raised by a requester that need to be solved
+- name: Ticket Fields
+  description: The custom and default ticket fields in Freshdesk have the following
+    properties.
+- name: Ticket Forms
+  description: Ticket forms allow you to show the right form to your customers depending
+    on what they want to contact you about
+- name: Ticket Converstations
+  description: Ticket conversations are the messages that are exchanged between the
+    requester and the agent
+- name: Account
+  description: See or export account information
+- name: Jobs
+  description: No Documentation
+- name: Contacts
+  description: Contacts are the people who are associated with a company
+- name: Contacts Fields
+  description: The custom and default contact fields in Freshdesk have the following
+    properties.
+- name: Agents
+  description: Agents are the people who are responsible for solving tickets
+- name: Skills
+  description: |-
+    Skills allow you to easily match tickets to the right agents.
+    You can associate distinct skills to each agent and create rules to make sure that only tickets matching those skills are assigned to them.
+- name: Roles
+  description: Roles are the permissions that are assigned to agents
+- name: Groups
+  description: Groups are the teams that your agents belong to
+- name: Admin-Groups
+  description: Admin groups are the teams that your agents belong to
+- name: Companies
+  description: Companies are the organizations that your customers belong to
+- name: Companies Fields
+  description: The custom and default company fields in Freshdesk have the following
+    properties.
+- name: Custom Objects
+  description: Custom objects are the custom entities that you can create in Freshdesk
+- name: Canned Responses
+  description: Canned responses are the pre-defined responses that can be used to
+    quickly respond to tickets
+- name: Discussions
+  description: Discussions are the comments that are added to tickets
+- name: Solutions
+  description: Solutions are the articles that are published in the knowledge base
+- name: Surveys
+  description: Surveys are the feedback forms that are sent to customers after a ticket
+    is resolved
+- name: Satisfaction Ratings
+  description: Satisfaction ratings are the feedback that customers provide after
+    a ticket is resolved
+- name: Field Service Management
+  description: Field Service Management is a feature that allows you to manage field
+    service agents and their schedules
+- name: Time Entries
+  description: Time entries are the time spent by agents on tickets
+- name: Email Configs
+  description: Email configurations are the email addresses that are used to receive
+    emails
+- name: Email Mailboxes
+  description: Email mailboxes are the email addresses that are used to receive emails
+- name: Products
+  description: Products are the items that you sell to your customers
+- name: Business Hours
+  description: Business hours are the time slots during which your agents are available
+    to solve tickets
+- name: Scenario Based Automation
+  description: Scenario based automation allows you to automate your helpdesk by creating
+    rules that trigger actions when certain conditions are met
+- name: SLA Policies
+  description: SLA policies are the rules that define the response time and resolution
+    time for tickets
+- name: Omnichannel Activities
+  description: Omnichannel activities are the activities that are performed by agents
+    on the omnichannel dashboard
+- name: Automations
+  description: Automations are the rules that are used to automate your helpdesk
+- name: Settings
+  description: Settings are the configuration options that are used to customize your
+    helpdesk
+paths:
+  /contacts:
+    get:
+      tags:
+      - Contacts
+      summary: List all contacts
+      description: List all contacts on your freshdesk domain.
+      responses:
+        "200":
+          description: OK
+  /contact_fields:
+    get:
+      tags:
+      - Contacts Fields
+      summary: List all contacts fields
+      description: List all contacts fields
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /settings/helpdesk:
+    get:
+      tags:
+      - Settings
+      summary: Settings are configured through the Admin page of the Freshdesk web
+        app.
+      description: Settings are configured through the Admin page of the Freshdesk
+        web app.
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /time_entries:
+    get:
+      tags:
+      - Time Entries
+      summary: List all Time entries
+      description: List all time entrioes
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /tickets:
+    get:
+      tags:
+      - Tickets
+      summary: List all tickets
+      description: List all tickets
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /ticket_fields:
+    get:
+      tags:
+      - Ticket Fields
+      summary: List all ticket fields
+      description: list all ticket fields
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /ticket-forms:
+    get:
+      tags:
+      - Ticket Forms
+      summary: List all ticket forms
+      description: |-
+        List all ticket forms
+        Be carefull: "The Multiple Ticket Forms feature(s) is/are not supported in your plan. Please upgrade your account to use it."
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /account:
+    get:
+      tags:
+      - Account
+      summary: View Account
+      description: View Account informations
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /jobs/{jobID}:
+    get:
+      tags:
+      - Jobs
+      summary: View a job
+      description: View a job
+      parameters:
+      - name: jobID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jobs'
+      security:
+      - basicAuth: []
+  /agents:
+    get:
+      tags:
+      - Agents
+      summary: View Agents
+      description: |-
+        View Agents
+        "The Skill Based Round Robin feature(s) is/are not supported in your plan. Please upgrade your account to use it."
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /skills:
+    get:
+      tags:
+      - Skills
+      summary: List all skills
+      description: List all skills
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /roles:
+    get:
+      tags:
+      - Roles
+      summary: List all roles
+      description: List all roles
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /groups:
+    get:
+      tags:
+      - Groups
+      summary: List all groups
+      description: List all groups
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /admin/groups:
+    get:
+      tags:
+      - Admin-Groups
+      summary: List all Admin-Groups
+      description: List all Admin-Groups
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /companies:
+    get:
+      tags:
+      - Companies
+      summary: List all Companies
+      description: List all Companies
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /company_fields:
+    get:
+      tags:
+      - Companies Fields
+      summary: List all Companies Fields
+      description: List all Companies Fields
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /canned_response_folders:
+    get:
+      tags:
+      - Canned Responses
+      summary: List All Folders
+      description: List All Folders
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /discussions/categories:
+    get:
+      tags:
+      - Discussions
+      summary: List All Forum Categories
+      description: List All Forum Categories
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /solutions/categories:
+    get:
+      tags:
+      - Solutions
+      summary: List all Solution Categories
+      description: List all Solution Categories
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /surveys:
+    get:
+      tags:
+      - Surveys
+      summary: List all Surveys
+      description: |-
+        List all Surveys
+        "message": "The Surveys feature(s) is/are not supported in your plan. Please upgrade your account to use it."
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /surveys/satisfaction_ratings:
+    get:
+      tags:
+      - Satisfaction Ratings
+      summary: View all Satisfaction Ratings
+      description: |-
+        View all Satisfaction Ratings
+        "message": "The Surveys feature(s) is/are not supported in your plan. Please upgrade your account to use it."
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /email_configs:
+    get:
+      tags:
+      - Email Configs
+      summary: List All Email Configs
+      description: List All Email Configs
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /email/mailboxes:
+    get:
+      tags:
+      - Email Mailboxes
+      summary: List All Email Mailboxes
+      description: List All Email Mailboxes
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /email/settings:
+    get:
+      tags:
+      - Email Mailboxes
+      summary: View Mailbox Settings
+      description: View Mailbox Settings
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /notifications/email/bcc:
+    get:
+      tags:
+      - Email Mailboxes
+      summary: View Automatic Bcc emails
+      description: View Automatic Bcc emails
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /products:
+    get:
+      tags:
+      - Products
+      summary: List All Products
+      description: |-
+        List All Products
+        "message": "The Multi Product feature(s) is/are not supported in your plan. Please upgrade your account to use it."
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /business_hours:
+    get:
+      tags:
+      - Business Hours
+      summary: List All Business Hours
+      description: List All Business Hours
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /scenario_automations.json:
+    get:
+      tags:
+      - Scenario Based Automation
+      summary: List All Scenario Automations
+      description: List All Scenario Automations
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+  /sla_policies:
+    get:
+      tags:
+      - SLA Policies
+      summary: List All SLA Policies
+      description: List All SLA Policies
+      responses:
+        "200":
+          description: OK
+      security:
+      - basicAuth: []
+components:
+  schemas:
+    properties: {}
+    Settings:
+      type: object
+      properties:
+        primary_language:
+          type: string
+        supported_languages:
+          type: array
+          items:
+            type: string
+        portal_languages:
+          type: array
+          items:
+            type: string
+    Jobs:
+      type: object
+      properties:
+        jobId:
+          type: integer
+          format: int64
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
