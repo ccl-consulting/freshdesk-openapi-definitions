@@ -29,7 +29,7 @@ tags:
 - name: Ticket Forms
   description: Ticket forms allow you to show the right form to your customers depending
     on what they want to contact you about
-- name: Ticket Converstations
+- name: Ticket Conversations
   description: Ticket conversations are the messages that are exchanged between the
     requester and the agent
 - name: Account
@@ -142,6 +142,28 @@ paths:
           description: OK
       security:
       - basicAuth: []
+  /conversations/{id}:
+    delete:
+      tags:
+      - Ticket Conversations
+      summary: Delete a conversation
+      description: Delete a conversation
+      parameters:
+      - name: id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
   /contacts:
     get:
       tags:
@@ -155,6 +177,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Contact'
+  /contacts/{id}:
+    delete:
+      tags:
+      - Contacts
+      summary: Soft Delete a Contact
+      description: Soft Delete a Contact
+      parameters:
+      - name: id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "200":
+          description: "HTTP Status: 204 No Content"
+  /contacts/{id}/hard_delete:
+    delete:
+      tags:
+      - Contacts
+      summary: Permanently Delete a Contact
+      description: Permanently Delete a Contact
+      parameters:
+      - name: id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "200":
+          description: "HTTP Status: 204 No Content"
   /contact_fields:
     get:
       tags:
@@ -170,29 +232,14 @@ paths:
                 $ref: '#/components/schemas/Contact'
       security:
       - basicAuth: []
-  /time_entries:
-    get:
+  /contact_field/{id}:
+    delete:
       tags:
-      - Time Entries
-      summary: List all Time entries
-      description: List all time entrioes
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Time_Entries'
-      security:
-      - basicAuth: []
-  /tickets/{ticketID}/time_entries:
-    post:
-      tags:
-      - Time Entries
-      summary: Create a Time Entry
-      description: Create a Time Entry
+      - Contacts Fields
+      summary: Delete a contact field
+      description: Delete a contact field
       parameters:
-      - name: ticketID
+      - name: id
         in: path
         description: Provide ID
         required: true
@@ -202,58 +249,32 @@ paths:
           type: integer
           format: int64
           example: 42
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ticketID_time_entries_body'
       responses:
         "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Time_Entries'
-      security:
-      - basicAuth: []
-  /time_entries/{timeID}:
-    put:
+          description: "HTTP Status: 204 No Content"
+  /agents:
+    get:
       tags:
-      - Time Entries
-      summary: Update a Time Entry
-      description: Create a Time Entry
-      parameters:
-      - name: timeID
-        in: path
-        description: Provide ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-          example: 2
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/time_entries_timeID_body'
+      - Agents
+      summary: View Agents
+      description: |-
+        View Agents
+        "The Skill Based Round Robin feature(s) is/are not supported in your plan. Please upgrade your account to use it."
       responses:
         "200":
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Time_Entries'
       security:
       - basicAuth: []
+  /agents/{id}:
     delete:
       tags:
-      - Time Entries
-      summary: Delete a Time Entry
-      description: Create a Time Entry
+      - Agents
+      summary: Delete an Agent
+      description: |-
+        Delete an Agent
+        "The Skill Based Round Robin feature(s) is/are not supported in your plan. Please upgrade your account to use it."
       parameters:
-      - name: timeID
+      - name: id
         in: path
         description: Provide ID
         required: true
@@ -262,36 +283,10 @@ paths:
         schema:
           type: integer
           format: int64
-          example: 2
+          example: 42
       responses:
         "204":
           description: "HTTP Status: 204 No Content"
-      security:
-      - basicAuth: []
-  /time_entries/{timeID}/toggle_timer:
-    put:
-      tags:
-      - Time Entries
-      summary: Start/Stop Timer
-      description: Start/Stop Timer
-      parameters:
-      - name: timeID
-        in: path
-        description: Provide ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-          example: 2
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Time_Entries'
       security:
       - basicAuth: []
   /account:
@@ -335,19 +330,6 @@ paths:
                 $ref: '#/components/schemas/Jobs'
       security:
       - basicAuth: []
-  /agents:
-    get:
-      tags:
-      - Agents
-      summary: View Agents
-      description: |-
-        View Agents
-        "The Skill Based Round Robin feature(s) is/are not supported in your plan. Please upgrade your account to use it."
-      responses:
-        "200":
-          description: OK
-      security:
-      - basicAuth: []
   /skills:
     get:
       tags:
@@ -357,6 +339,28 @@ paths:
       responses:
         "200":
           description: OK
+      security:
+      - basicAuth: []
+  /skills/{id}:
+    delete:
+      tags:
+      - Skills
+      summary: Delete a Skill
+      description: Delete a Skill
+      parameters:
+      - name: id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
       security:
       - basicAuth: []
   /roles/{rolesID}:
@@ -411,6 +415,28 @@ paths:
           description: OK
       security:
       - basicAuth: []
+  /groups/{id}:
+    delete:
+      tags:
+      - Groups
+      summary: Delete a group
+      description: Delete a group
+      parameters:
+      - name: id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
   /admin/groups:
     get:
       tags:
@@ -420,6 +446,28 @@ paths:
       responses:
         "200":
           description: OK
+      security:
+      - basicAuth: []
+  /admin/groups/{id}:
+    delete:
+      tags:
+      - Admin-Groups
+      summary: Delete a group
+      description: Delete a group
+      parameters:
+      - name: id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
       security:
       - basicAuth: []
   /companies:
@@ -433,6 +481,28 @@ paths:
           description: OK
       security:
       - basicAuth: []
+  /companies/{id}:
+    delete:
+      tags:
+      - Companies
+      summary: Delete a company
+      description: Delete a company
+      parameters:
+      - name: id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
   /company_fields:
     get:
       tags:
@@ -442,6 +512,50 @@ paths:
       responses:
         "200":
           description: OK
+      security:
+      - basicAuth: []
+  /company_fields/{id}:
+    delete:
+      tags:
+      - Companies Fields
+      summary: Delete a company field
+      description: Delete a group
+      parameters:
+      - name: id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
+  /custom_objects/schemas/schema-id/records/{record-id}:
+    delete:
+      tags:
+      - Custom Objects
+      summary: Delete a record
+      description: Delete a record
+      parameters:
+      - name: record-id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
       security:
       - basicAuth: []
   /canned_response_folders:
@@ -719,6 +833,130 @@ paths:
       responses:
         "200":
           description: OK
+      security:
+      - basicAuth: []
+  /time_entries:
+    get:
+      tags:
+      - Time Entries
+      summary: List all Time entries
+      description: List all time entrioes
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Time_Entries'
+      security:
+      - basicAuth: []
+  /tickets/{ticketID}/time_entries:
+    post:
+      tags:
+      - Time Entries
+      summary: Create a Time Entry
+      description: Create a Time Entry
+      parameters:
+      - name: ticketID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ticketID_time_entries_body'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Time_Entries'
+      security:
+      - basicAuth: []
+  /time_entries/{timeID}:
+    put:
+      tags:
+      - Time Entries
+      summary: Update a Time Entry
+      description: Create a Time Entry
+      parameters:
+      - name: timeID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/time_entries_timeID_body'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Time_Entries'
+      security:
+      - basicAuth: []
+    delete:
+      tags:
+      - Time Entries
+      summary: Delete a Time Entry
+      description: Create a Time Entry
+      parameters:
+      - name: timeID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 2
+      responses:
+        "204":
+          description: "HTTP Status: 204 No Content"
+      security:
+      - basicAuth: []
+  /time_entries/{timeID}/toggle_timer:
+    put:
+      tags:
+      - Time Entries
+      summary: Start/Stop Timer
+      description: Start/Stop Timer
+      parameters:
+      - name: timeID
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Time_Entries'
       security:
       - basicAuth: []
   /email_configs/{emailID}:
