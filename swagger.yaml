@@ -413,9 +413,87 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Groups'
+      security:
+      - basicAuth: []
+    post:
+      tags:
+      - Groups
+      summary: Create a Group
+      description: Create a Group
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/groups_body'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Groups'
       security:
       - basicAuth: []
   /groups/{id}:
+    get:
+      tags:
+      - Groups
+      summary: View a group
+      description: View a group
+      parameters:
+      - name: id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Groups'
+      security:
+      - basicAuth: []
+    put:
+      tags:
+      - Groups
+      summary: Update a group
+      description: Update a group
+      parameters:
+      - name: id
+        in: path
+        description: Provide ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 42
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/groups_id_body'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Groups'
+      security:
+      - basicAuth: []
     delete:
       tags:
       - Groups
@@ -446,6 +524,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin_Groups'
       security:
       - basicAuth: []
   /admin/groups/{id}:
@@ -1226,6 +1308,116 @@ components:
           description: Unique ID of the ticket
           format: int64
           example: 42
+        cc_emails:
+          type: array
+          example:
+          - ram@freshdesk.com
+          - diana@freshdesk.com
+          items:
+            type: string
+        fwd_emails:
+          type: array
+          example:
+          - ram@freshdesk.com
+          - diana@freshdesk.com
+          items:
+            type: string
+        reply_cc_emails:
+          type: array
+          example:
+          - ram@freshdesk.com
+          - diana@freshdesk.com
+          items:
+            type: string
+        email_config_id:
+          type: integer
+          format: int64
+        group_id:
+          type: integer
+          format: int64
+        priority:
+          type: integer
+          format: int64
+          example: 1
+        requester_id:
+          type: integer
+          format: int64
+          example: 42
+        responder_id:
+          type: integer
+          format: int64
+        source:
+          type: integer
+          format: int64
+          example: 2
+        status:
+          type: integer
+          format: int64
+          example: 2
+        fr_escalated:
+          type: boolean
+          example: false
+        spam:
+          type: boolean
+          example: false
+        urgent:
+          type: boolean
+          example: false
+        is_escalated:
+          type: boolean
+          example: false
+        created_at:
+          type: string
+          format: datetime
+          example: 2017-09-21T14:00:50Z
+        updated_at:
+          type: string
+          format: datetime
+          example: 2018-11-30T14:13:11Z
+        due_by:
+          type: string
+          format: datetime
+          example: 2018-11-30T14:13:11Z
+        fr_due_by:
+          type: string
+          format: datetime
+          example: 2018-11-30T14:13:11Z
+        description_text:
+          type: string
+          example: Some details on the issue ...
+        description:
+          type: string
+          example: <div>Some details on the issue ..</div>
+        tags:
+          type: array
+          items:
+            type: string
+        attachments:
+          type: array
+          items:
+            type: object
+        company_id:
+          type: integer
+          description: ID of the primary company
+          format: int64
+          example: 42
+        subject:
+          type: string
+          example: Support needed..
+        type:
+          type: string
+          example: Question
+        to_emails:
+          type: array
+          example:
+          - ram@freshdesk.com
+          - diana@freshdesk.com
+          items:
+            type: string
+        product_id:
+          type: integer
+          format: int64
+          example: 1
     Account:
       type: object
       properties:
@@ -1424,6 +1616,100 @@ components:
           description: Roles updated timestamp
           format: datetime
           example: 2016-07-11T04:40:00Z
+    Groups:
+      type: object
+      properties:
+        agent_ids:
+          type: array
+          description: Array of agent user IDs separated by commas. Instructions on
+            finding an agent's user ID can be found here.
+          items:
+            type: integer
+            format: int64
+        auto_ticket_assign:
+          type: integer
+          description: Describes the type of automatic ticket assignment set for the
+            group. Automatic ticket assignment is only available on certain plans.
+          format: int64
+        business_hour_id:
+          type: integer
+          description: Unique ID of the business hour associated with the group
+          format: int64
+        description:
+          type: string
+          description: Description of the group
+        escalate_to:
+          type: integer
+          description: "The ID of the user to whom an escalation email is sent if\
+            \ a ticket is unassigned. To create/update a group with an escalate_to\
+            \ value of 'none', please set the value of this parameter to 'null'"
+          format: int64
+        id:
+          type: integer
+          description: Unique ID of the group
+          format: int64
+        name:
+          type: string
+          description: Name of the group
+        unassigned_for:
+          type: string
+          description: "The time after which an escalation email is sent if a ticket\
+            \ remains unassigned. The accepted values are \"30m\" for 30 minutes,\
+            \ \"1h\" for 1 hour, \"2h\" for 2 hours, \"4h\" for 4 hours, \"8h\" for\
+            \ 8 hours, \"12h\" for 12 hours, \"1d\" for 1 day, \"2d\" for 2 days,\
+            \ and \"3d\" for 3 days"
+        created_at:
+          type: string
+          description: Group creation timestamp
+          format: datetime
+        updated_at:
+          type: string
+          description: Group updated timestamp
+          format: datetime
+    Admin_Groups:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 7653
+        name:
+          type: string
+          example: Entertainment
+        description:
+          type: string
+          example: Singers and dancers
+        escalate_to:
+          type: integer
+          format: int64
+        unassigned_for:
+          type: string
+          example: 30m
+        agent_ids:
+          type: array
+          example:
+          - 42
+          - 1
+          items:
+            type: integer
+            format: int64
+        created_at:
+          type: string
+          format: datetime
+          example: 2015-08-25T07:31:55Z
+        updated_at:
+          type: string
+          format: datetime
+          example: 2015-08-25T07:31:55Z
+        allow_agents_to_change_availability:
+          type: boolean
+          example: true
+        business_calendar_id:
+          type: integer
+          format: int64
+          example: 1
+        automatic_agent_assignment:
+          $ref: '#/components/schemas/Admin_Groups_automatic_agent_assignment'
     Time_Entries:
       type: object
       properties:
@@ -1623,6 +1909,84 @@ components:
           description: Portal language on your subdomain
           items:
             type: string
+    groups_body:
+      type: object
+      properties:
+        agent_ids:
+          type: array
+          description: "Array of agent user ids separated by comma (' , '). Instructions\
+            \ on getting the agent's user ID"
+          items:
+            type: integer
+        auto_ticket_assign:
+          type: integer
+          description: "Describes the automatic ticket assignment type. Will not be\
+            \ supported if your Freshdesk account is not on a plan that supports automatic\
+            \ ticket assignment. The accepted values are 0 and 1. To set other assignment\
+            \ types to a group, use Admin-Groups API. The default value is 0."
+          format: int64
+          example: 0
+        description:
+          type: string
+          description: Description of the group
+          example: Singers and dancers
+        escalate_to:
+          type: integer
+          description: The user to whom the escalation email is sent of a ticket is
+            unassigned. To create/update escalate_to with 'none' provide the value
+            'null' in the request
+          format: int64
+        name:
+          type: string
+          description: Name of the group
+          example: Entertainment
+        unassigned_for:
+          type: string
+          description: "The time after which an escalation email will be sent if a\
+            \ ticket remains unassigned. The accepted values are \"30m\" for 30 minutes,\
+            \ \"1h\" for 1 hour, \"2h\" for 2 hour, \"4h\" for 4 hour, \"8h\" for\
+            \ 8 hour, \"12h\" for 12 hour, \"1d\" for 1 day, \"2d\" for 2days, \"\
+            3d\" for 3 days. The default value is \"30m\""
+          example: 30m
+    groups_id_body:
+      type: object
+      properties:
+        agent_ids:
+          type: array
+          description: "Array of agent user ids separated by comma (' , '). Instructions\
+            \ on getting the agent's user ID"
+          items:
+            type: integer
+        auto_ticket_assign:
+          type: integer
+          description: "Describes the automatic ticket assignment type. Will not be\
+            \ supported if your Freshdesk account is not on a plan that supports automatic\
+            \ ticket assignment. The accepted values are 0 and 1. To set other assignment\
+            \ types to a group, use Admin-Groups API. The default value is 0."
+          format: int64
+          example: 0
+        description:
+          type: string
+          description: Description of the group
+          example: Singers and dancers
+        escalate_to:
+          type: integer
+          description: The user to whom the escalation email is sent of a ticket is
+            unassigned. To create/update escalate_to with 'none' provide the value
+            'null' in the request
+          format: int64
+        name:
+          type: string
+          description: Name of the group
+          example: Entertainment
+        unassigned_for:
+          type: string
+          description: "The time after which an escalation email will be sent if a\
+            \ ticket remains unassigned. The accepted values are \"30m\" for 30 minutes,\
+            \ \"1h\" for 1 hour, \"2h\" for 2 hour, \"4h\" for 4 hour, \"8h\" for\
+            \ 8 hour, \"12h\" for 12 hour, \"1d\" for 1 day, \"2d\" for 2days, \"\
+            3d\" for 3 days. The default value is \"30m\""
+          example: 30m
     ticketID_time_entries_body:
       type: object
       properties:
@@ -1741,6 +2105,37 @@ components:
         email:
           type: string
           example: clarkkent1@gmail.com
+    Admin_Groups_automatic_agent_assignment_assignment_type_settings:
+      type: object
+      properties:
+        capping_limit:
+          type: integer
+          format: int64
+          example: 2
+    Admin_Groups_automatic_agent_assignment_settings:
+      type: object
+      properties:
+        channel:
+          type: string
+          example: ticket
+        assignment_type:
+          type: string
+          example: skill_based_round_robin
+        assignment_type_settings:
+          $ref: '#/components/schemas/Admin_Groups_automatic_agent_assignment_assignment_type_settings'
+    Admin_Groups_automatic_agent_assignment:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          example: true
+        type:
+          type: string
+          example: channel_specific
+        settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Admin_Groups_automatic_agent_assignment_settings'
     Business_Hours_business_hours_monday:
       type: object
       properties:
